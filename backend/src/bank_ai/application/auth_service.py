@@ -1,4 +1,3 @@
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.concurrency import run_in_threadpool
@@ -14,11 +13,7 @@ async def authenticate_user(
 ) -> User | None:
     normalized_email = email.strip().lower()
 
-    user = await db.scalar(
-        select(User).where(
-            User.email == normalized_email
-        )
-    )
+    user = await db.scalar(select(User).where(User.email == normalized_email))
 
     if user is None:
         return None

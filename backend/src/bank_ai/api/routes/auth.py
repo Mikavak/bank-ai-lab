@@ -1,15 +1,13 @@
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from bank_ai.api.dependencies.auth import get_current_user
-from bank_ai.api.schemas.auth import CurrentUserResponse
-from bank_ai.infrastructure.database.models import User
-from bank_ai.api.schemas.auth import LoginRequest, TokenResponse
+from bank_ai.api.schemas.auth import CurrentUserResponse, LoginRequest, TokenResponse
 from bank_ai.application.auth_service import authenticate_user
 from bank_ai.core.config import Settings, get_settings
 from bank_ai.core.security import create_access_token
+from bank_ai.infrastructure.database.models import User
 from bank_ai.infrastructure.database.session import get_db
-
 
 router = APIRouter(
     prefix="/auth",

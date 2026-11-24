@@ -1,4 +1,3 @@
-
 from fastapi import Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,9 +18,7 @@ async def get_current_customer(
         )
 
     customer = await db.scalar(
-        select(Customer).where(
-            Customer.user_id == current_user.id
-        )
+        select(Customer).where(Customer.user_id == current_user.id)
     )
 
     if customer is None:

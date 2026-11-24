@@ -1,4 +1,3 @@
-
 import uuid
 from unittest.mock import AsyncMock
 
@@ -12,7 +11,6 @@ from bank_ai.core.config import get_settings
 from bank_ai.core.security import create_access_token
 from bank_ai.infrastructure.database.models import User
 from bank_ai.infrastructure.database.session import get_db
-
 
 TEST_SECRET = "test-secret-key-with-at-least-32-characters"
 
@@ -93,9 +91,7 @@ async def test_get_current_user_invalid_token():
     ) as client:
         response = await client.get(
             "/auth/me",
-            headers={
-                "Authorization": "Bearer invalid-token"
-            },
+            headers={"Authorization": "Bearer invalid-token"},
         )
 
     assert response.status_code == 401

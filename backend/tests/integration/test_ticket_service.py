@@ -1,4 +1,3 @@
-
 import asyncio
 import uuid
 
@@ -74,50 +73,40 @@ async def ticket_data():
     try:
         yield data
     finally:
-        async with factory() as db:
-            async with db.begin():
-                ticket_ids = select(SupportTicket.id).where(
-                    SupportTicket.conversation_id
-                    == data["conversation_id"]
-                )
+        async with factory() as db, db.begin():
+            ticket_ids = select(SupportTicket.id).where(
+                SupportTicket.conversation_id == data["conversation_id"]
+            )
 
-                await db.execute(
-                    delete(TicketAssignmentHistory).where(
-                        TicketAssignmentHistory.ticket_id.in_(
-                            ticket_ids
-                        )
-                    )
+            await db.execute(
+                delete(TicketAssignmentHistory).where(
+                    TicketAssignmentHistory.ticket_id.in_(ticket_ids)
                 )
+            )
 
-                await db.execute(
-                    delete(SupportTicket).where(
-                        SupportTicket.conversation_id
-                        == data["conversation_id"]
-                    )
+            await db.execute(
+                delete(SupportTicket).where(
+                    SupportTicket.conversation_id == data["conversation_id"]
                 )
+            )
 
-                await db.execute(
-                    delete(Conversation).where(
-                        Conversation.id
-                        == data["conversation_id"]
-                    )
-                )
+            await db.execute(
+                delete(Conversation).where(Conversation.id == data["conversation_id"])
+            )
 
-                await db.execute(
-                    delete(Customer).where(
-                        Customer.id == data["customer_id"]
-                    )
-                )
+            await db.execute(delete(Customer).where(Customer.id == data["customer_id"]))
 
-                await db.execute(
-                    delete(User).where(
-                        User.id.in_([
+            await db.execute(
+                delete(User).where(
+                    User.id.in_(
+                        [
                             data["client_id"],
                             data["operator1_id"],
                             data["operator2_id"],
-                        ])
+                        ]
                     )
                 )
+            )
 
 
 @pytest.mark.asyncio
@@ -187,8 +176,7 @@ async def test_claim_ticket_creates_history(ticket_data):
         history = (
             await db.scalars(
                 select(TicketAssignmentHistory).where(
-                    TicketAssignmentHistory.ticket_id
-                    == ticket.id
+                    TicketAssignmentHistory.ticket_id == ticket.id
                 )
             )
         ).all()
@@ -286,8 +274,7 @@ async def test_two_operators_cannot_claim_same_ticket(
         history = (
             await db.scalars(
                 select(TicketAssignmentHistory).where(
-                    TicketAssignmentHistory.ticket_id
-                    == ticket.id
+                    TicketAssignmentHistory.ticket_id == ticket.id
                 )
             )
         ).all()

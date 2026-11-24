@@ -1,4 +1,3 @@
-
 import pytest
 from sqlalchemy import text
 
@@ -10,9 +9,7 @@ async def test_postgres_connection():
     engine = get_engine()
 
     async with engine.connect() as connection:
-        result = await connection.execute(
-            text("SELECT 1")
-        )
+        result = await connection.execute(text("SELECT 1"))
 
         assert result.scalar_one() == 1
 
@@ -23,10 +20,7 @@ async def test_pgvector_extension():
 
     async with engine.connect() as connection:
         result = await connection.execute(
-            text(
-                "SELECT extname FROM pg_extension "
-                "WHERE extname = 'vector'"
-            )
+            text("SELECT extname FROM pg_extension WHERE extname = 'vector'")
         )
 
         assert result.scalar_one() == "vector"

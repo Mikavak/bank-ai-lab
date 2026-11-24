@@ -1,4 +1,3 @@
-
 import uuid
 from types import SimpleNamespace
 
@@ -20,7 +19,6 @@ from bank_ai.infrastructure.database.session import (
     get_db,
     get_engine,
 )
-
 
 TEST_SECRET = "test-secret-key-with-at-least-32-characters"
 
@@ -81,10 +79,12 @@ async def api_context():
                     status="closed",
                 )
 
-                session.add_all([
-                    conversation,
-                    closed_conversation,
-                ])
+                session.add_all(
+                    [
+                        conversation,
+                        closed_conversation,
+                    ]
+                )
                 await session.commit()
 
                 app = create_app()
@@ -93,10 +93,8 @@ async def api_context():
                     yield session
 
                 app.dependency_overrides[get_db] = override_db
-                app.dependency_overrides[get_settings] = lambda: (
-                    SimpleNamespace(
-                        jwt_secret_key=SecretStr(TEST_SECRET),
-                    )
+                app.dependency_overrides[get_settings] = lambda: SimpleNamespace(
+                    jwt_secret_key=SecretStr(TEST_SECRET),
                 )
 
                 async with AsyncClient(
@@ -167,9 +165,7 @@ async def test_other_client_cannot_access_messages(api_context):
 async def test_messages_require_authentication(api_context):
     client, _, _, conversation_id, _ = api_context
 
-    response = await client.get(
-        f"/conversations/{conversation_id}/messages"
-    )
+    response = await client.get(f"/conversations/{conversation_id}/messages")
 
     assert response.status_code == 401
 

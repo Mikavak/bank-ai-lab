@@ -1,4 +1,3 @@
-
 import uuid
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
@@ -16,7 +15,6 @@ from bank_ai.core.security import (
 )
 from bank_ai.infrastructure.database.models import User
 from bank_ai.infrastructure.database.session import get_db
-
 
 TEST_SECRET = "test-secret-key-with-at-least-32-characters"
 
