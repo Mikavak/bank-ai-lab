@@ -1,4 +1,3 @@
-
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,7 +9,6 @@ from bank_ai.core.security import (
 )
 from bank_ai.infrastructure.database.models import User
 from bank_ai.infrastructure.database.session import get_db
-
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -24,9 +22,7 @@ def unauthorized() -> HTTPException:
 
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials | None = Depends(
-        bearer_scheme
-    ),
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     db: AsyncSession = Depends(get_db),
     settings: Settings = Depends(get_settings),
 ) -> User:

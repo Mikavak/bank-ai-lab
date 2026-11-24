@@ -1,4 +1,3 @@
-
 import asyncio
 
 from sqlalchemy import select
@@ -31,9 +30,7 @@ async def seed_demo() -> None:
     try:
         async with get_session_factory()() as session:
             async with session.begin():
-                user = await session.scalar(
-                    select(User).where(User.email == email)
-                )
+                user = await session.scalar(select(User).where(User.email == email))
 
                 password_digest = await asyncio.to_thread(
                     hash_password,
@@ -55,9 +52,7 @@ async def seed_demo() -> None:
                     user.password_hash = password_digest
 
                 customer = await session.scalar(
-                    select(Customer).where(
-                        Customer.user_id == user.id
-                    )
+                    select(Customer).where(Customer.user_id == user.id)
                 )
 
                 if customer is None:

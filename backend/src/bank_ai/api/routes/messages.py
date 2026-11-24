@@ -1,4 +1,3 @@
-
 import uuid
 
 from fastapi import (
@@ -24,7 +23,6 @@ from bank_ai.application.message_service import (
 )
 from bank_ai.infrastructure.database.models import Customer, User
 from bank_ai.infrastructure.database.session import get_db
-
 
 router = APIRouter(
     prefix="/conversations",
@@ -94,7 +92,4 @@ async def list_messages(
             detail="Conversation not found",
         ) from None
 
-    return [
-        MessageResponse.model_validate(message)
-        for message in messages
-    ]
+    return [MessageResponse.model_validate(message) for message in messages]

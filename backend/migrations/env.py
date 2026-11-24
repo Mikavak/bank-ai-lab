@@ -2,9 +2,8 @@ from alembic import context
 from sqlalchemy import create_engine, pool
 
 from bank_ai.core.config import get_settings
-from bank_ai.infrastructure.database.base import Base
 from bank_ai.infrastructure.database import models  # noqa: F401
-
+from bank_ai.infrastructure.database.base import Base
 
 config = context.config
 

@@ -1,4 +1,3 @@
-
 import uuid
 
 import pytest
@@ -27,7 +26,6 @@ async def test_create_conversation_with_messages():
                 expire_on_commit=False,
                 join_transaction_mode="create_savepoint",
             ) as session:
-
                 client = User(
                     email=f"client-{uuid.uuid4()}@test.local",
                     password_hash="test_hash",
@@ -58,26 +56,27 @@ async def test_create_conversation_with_messages():
                     session.add(conversation)
                     await session.flush()
 
-                    session.add_all([
-                        Message(
-                            conversation_id=conversation.id,
-                            sender_user_id=client.id,
-                            role="client",
-                            content="Как погасить кредит?",
-                        ),
-                        Message(
-                            conversation_id=conversation.id,
-                            sender_user_id=operator.id,
-                            role="operator",
-                            content="Через мобильное приложение.",
-                        ),
-                    ])
+                    session.add_all(
+                        [
+                            Message(
+                                conversation_id=conversation.id,
+                                sender_user_id=client.id,
+                                role="client",
+                                content="Как погасить кредит?",
+                            ),
+                            Message(
+                                conversation_id=conversation.id,
+                                sender_user_id=operator.id,
+                                role="operator",
+                                content="Через мобильное приложение.",
+                            ),
+                        ]
+                    )
 
                 messages = (
                     await session.scalars(
                         select(Message).where(
-                            Message.conversation_id
-                            == conversation.id
+                            Message.conversation_id == conversation.id
                         )
                     )
                 ).all()

@@ -1,4 +1,3 @@
-
 import uuid
 
 import pytest
@@ -10,7 +9,6 @@ from bank_ai.core.security import (
     verify_access_token,
     verify_password,
 )
-
 
 TEST_SECRET = "local-test-signing-secret-at-least-32-bytes-long"
 

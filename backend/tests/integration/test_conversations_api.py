@@ -1,4 +1,3 @@
-
 import uuid
 from types import SimpleNamespace
 
@@ -13,7 +12,6 @@ from bank_ai.core.config import get_settings
 from bank_ai.core.security import create_access_token
 from bank_ai.infrastructure.database.models import Customer, User
 from bank_ai.infrastructure.database.session import get_db, get_engine
-
 
 TEST_SECRET = "test-secret-key-with-at-least-32-characters"
 
@@ -55,23 +53,27 @@ async def api_context():
                     role="operator",
                 )
 
-                session.add_all([
-                    client_user,
-                    other_user,
-                    operator,
-                ])
+                session.add_all(
+                    [
+                        client_user,
+                        other_user,
+                        operator,
+                    ]
+                )
                 await session.flush()
 
-                session.add_all([
-                    Customer(
-                        user_id=client_user.id,
-                        full_name="Первый клиент",
-                    ),
-                    Customer(
-                        user_id=other_user.id,
-                        full_name="Второй клиент",
-                    ),
-                ])
+                session.add_all(
+                    [
+                        Customer(
+                            user_id=client_user.id,
+                            full_name="Первый клиент",
+                        ),
+                        Customer(
+                            user_id=other_user.id,
+                            full_name="Второй клиент",
+                        ),
+                    ]
+                )
                 await session.commit()
 
                 app = create_app()
@@ -80,10 +82,8 @@ async def api_context():
                     yield session
 
                 app.dependency_overrides[get_db] = override_db
-                app.dependency_overrides[get_settings] = lambda: (
-                    SimpleNamespace(
-                        jwt_secret_key=SecretStr(TEST_SECRET),
-                    )
+                app.dependency_overrides[get_settings] = lambda: SimpleNamespace(
+                    jwt_secret_key=SecretStr(TEST_SECRET),
                 )
 
                 async with AsyncClient(

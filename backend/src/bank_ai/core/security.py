@@ -3,12 +3,11 @@
 
 
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import jwt
 from jwt import InvalidTokenError
 from pwdlib import PasswordHash
-
 
 password_hash = PasswordHash.recommended()
 
@@ -41,7 +40,7 @@ def create_access_token(
     if expires_minutes <= 0:
         raise ValueError("Token lifetime must be positive")
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     payload = {
         "sub": str(user_id),
@@ -78,6 +77,4 @@ def verify_access_token(
         return uuid.UUID(payload["sub"])
 
     except (InvalidTokenError, ValueError, TypeError, KeyError) as exc:
-        raise InvalidAccessTokenError(
-            "Invalid access token"
-        ) from exc
+        raise InvalidAccessTokenError("Invalid access token") from exc
