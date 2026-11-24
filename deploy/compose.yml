@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.7-pg16-trixie
+    container_name: bank-ai-lab-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: bank_ai
+      POSTGRES_PASSWORD: bank_ai
+      POSTGRES_DB: bank_ai
+
+    ports:
+      - "127.0.0.1:5435:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bank_ai -d bank_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

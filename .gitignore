@@ -1,0 +1,164 @@
+# ==========================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ==========================================
+
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+*.pem
+*.key
+*.p12
+*.pfx
+
+secrets/
+.secrets/
+
+# ==========================================
+# PYTHON
+# ==========================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+venv/
+env/
+ENV/
+
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+
+.python_history
+
+# ==========================================
+# UV
+# ==========================================
+
+.uv/
+.uv-cache/
+
+# Do not ignore uv.lock or .python-version
+
+# ==========================================
+# TESTING & CODE QUALITY
+# ==========================================
+
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.tox/
+.nox/
+.hypothesis/
+
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+test-results/
+playwright-report/
+
+# ==========================================
+# IDE
+# ==========================================
+
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# ==========================================
+# MACOS / WINDOWS
+# ==========================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# ==========================================
+# LOGS & TEMPORARY FILES
+# ==========================================
+
+*.log
+logs/
+*.pid
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# ==========================================
+# LOCAL DATABASE & STORAGE
+# ==========================================
+
+*.sqlite
+*.sqlite3
+*.db
+
+deploy/**/data/
+postgres_data/
+redis_data/
+minio_data/
+
+# ==========================================
+# AI / ML MODELS
+# ==========================================
+
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+*.pth
+models/downloaded/
+models/cache/
+
+# ==========================================
+# RAG & LOCAL USER DATA
+# ==========================================
+
+data/private/
+data/local/
+data/raw/
+data/uploads/
+data/generated/
+
+uploads/
+evals/results/
+evals/reports/generated/
+
+# ==========================================
+# FRONTEND / NODE.JS
+# ==========================================
+
+node_modules/
+.npm/
+.pnpm-store/
+
+.next/
+.nuxt/
+.vite/
+.svelte-kit/
+
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# LOCAL HTTP / API CLIENTS
+# ==========================================
+
+.httpRequests/
